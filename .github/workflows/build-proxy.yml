@@ -10,11 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+      with:
+        egress-policy: audit
+
     - name: Checkout Java client
-      uses: actions/checkout@v2
+      uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
 
     - name: Set up settings.xml for Maven
-      uses: s4u/maven-settings-action@v2.8.0
+      uses: s4u/maven-settings-action@60912582505985be4cc55d2b890eb32767f8de5f # v2.8.0
       with:
         servers: '[{"id": "snapshots_private", "username": "${{ secrets.JFROG_USERNAME }}", "password": "${{ secrets.JFROG_MAVEN_TOKEN }}"}]'
 
